@@ -61,8 +61,7 @@ ggplot(w_us) +
   ) +
   scale_x_date(
     name = "",
-    date_labels = "%b. %d %y",
-    # date_labels = "%b. '%y",
+    date_labels = "%b. '%y",
     date_breaks = "12 months",
     limits = c(min(w_us$valid_end), max(w_us$valid_end))
   ) +
