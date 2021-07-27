@@ -4,7 +4,16 @@ library(scico)
 
 tt <- tidytuesdayR::tt_load("2021-07-27")
 
-olympics <- tt$olympics
+# to see how much age/weight/height vary, estimate SDs for each year by season & athlete sex
+# go from wide -> tall, and clean up the text variables for plotting
+ahw_sds <- tt$olympics %>%
+  group_by(year, season, sex) %>%
+  summarise(across(age:weight, .fns = ~sd(., na.rm = TRUE))) %>%
+  pivot_longer(age:weight) %>%
+  mutate(
+    sex = factor(sex, levels = c("F", "M"), labels = c("Female", "Male")),
+    name = factor(name, levels = c("age", "height", "weight"), labels = c("Age", "Height (cm)", "Weight (kg)"))
+  )
 
 sysfonts::font_add_google("Noto Sans JP", "Noto Sans JP")
 sysfonts::font_add_google("Roboto", "Roboto")
@@ -12,35 +21,29 @@ showtext::showtext_auto()
 
 plot_theme <- theme_minimal(base_size = 18) +
   theme(
+    panel.spacing = unit(2, "lines"),  # ensure the axis text on the facets don't overlap
     panel.grid.minor.x = element_blank(),
     panel.grid.major = element_line(color = "#ffffff", linetype = "dotted"),
     panel.grid.minor = element_line(color = "#ffffff", linetype = "dotted"),
-    panel.spacing = unit(2, "lines"),
     legend.position = "top",
     legend.justification = "left",
+    legend.text = element_text(family = "Noto Sans JP"),
     plot.background = element_rect(fill = "#7eceff"),
     plot.title = element_text(family = "Noto Sans JP"),
+    plot.caption = element_markdown(family = "Roboto"),
     strip.text = element_text(family = "Noto Sans JP"),
-    axis.text = element_text(family = "Noto Sans JP"),
-    legend.text = element_text(family = "Noto Sans JP"),
-    plot.caption = element_markdown(family = "Roboto")
+    axis.text = element_text(family = "Noto Sans JP")
   )
 
-olympics %>%
-  mutate(sex = factor(sex, levels = c("F", "M"), labels = c("Female", "Male"))) %>%
-  group_by(year, season, sex) %>%
-  summarise(across(age:weight, .fns = ~sd(., na.rm = TRUE))) %>%
-  pivot_longer(age:weight) %>%
-  mutate(name = factor(name, levels = c("age", "height", "weight"), labels = c("Age", "Height (cm)", "Weight (kg)"))) %>%
-  ggplot(aes(x = year, y = value, color = season)) +
-  geom_line(size = 1.1) +
+ggplot(ahw_sds) +
+  geom_line(aes(x = year, y = value, color = season), size = 1.1) +
   scale_x_continuous(name = "") +
   scale_y_continuous(name = "Standard Deviation") +
   scale_color_scico_d(name = "", palette = "tokyo", direction = -1) +
   facet_grid(sex ~ name) +
   labs(
     title = "Modern Olympic athletes tend to be of similar age, but vary in build.",
-    subtitle = "Summer sports are more diverse in style, which induces additional variability.",
+    subtitle = "Summer sports are more diverse in style, which seems reflected in higher variability.",
     caption = "**Source:** Kaggle.com **Plot:** @mooreaw_"
   ) +
   plot_theme
@@ -59,4 +62,3 @@ olympics %>%
 # from 6kg to 8kg in female athletes.
 
 ggsave("20210727-kaggle-olympics.png", width = 11, height = 8)
-
