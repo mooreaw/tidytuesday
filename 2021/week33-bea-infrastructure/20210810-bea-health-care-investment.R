@@ -29,6 +29,7 @@ plot_theme <- theme_minimal(base_size = 18) +
     axis.text.x = element_text(vjust = 5),
     plot.background = element_rect(fill = "#ffffff"),
     plot.title = element_text(family = "Roboto"),
+    plot.title.position = "plot",
     plot.subtitle = element_text(family = "Roboto", size = 14),
     plot.caption = element_markdown(family = "Roboto")
   )
