@@ -44,7 +44,7 @@ ggplot(ahw_sds) +
   labs(
     title = "Modern Olympic athletes tend to be of similar age, but vary in build.",
     subtitle = "Summer sports are more diverse in style, which seems reflected in higher variability.",
-    caption = "**Source:** Kaggle.com **Plot:** @mooreaw_"
+    caption = "**Source:** Kaggle.com **Plot:** @ndrewwm"
   ) +
   plot_theme
 

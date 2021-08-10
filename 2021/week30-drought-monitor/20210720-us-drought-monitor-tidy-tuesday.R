@@ -70,7 +70,7 @@ ggplot(w_us) +
   labs(
     title = "Percent of Western US populations living in areas affected by drought.",
     subtitle = "Weekly estimates from Jan. '15 to Jul. '21. Percentages reflect the share of the state's\npopulation experiencing a drought with severity from \"Moderate\" to \"Exceptional\".",
-    caption = "**Source:** U.S. Drought Monitor **Plot:** @mooreaw_"
+    caption = "**Source:** U.S. Drought Monitor **Plot:** @ndrewwm"
   ) +
   plot_theme
 
