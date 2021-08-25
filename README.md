@@ -8,6 +8,8 @@ This repository is used to gather the code and products I'm generating for the w
 
 ![](https://github.com/ndrewwm/tidytuesday/blob/main/2021/week35-dlc-lemurs/20210824-dlc-lemurs.png)
 
+---
+
 ### Week 33, BEA Infrastructure
 
 ![A line plot tracking investment in health infrastructure, with 4 different series: health overall, private equipment, private hospitals, other health structures, and all federal. The plot has the following title: "Real investment in health infrastructure, 1947-2017", and subtitle: "Spending on equipment (e.g., electromedical machinery & instruments) has increased drastically since 1995, partially due to corresponding declines in prices." The x-axis marks decades from 1950 to 2010, and the y-axis measures chained 2012 dollars in millions (ranging from $500M to $150,000M). The series show that overall investment has been increasing steadily, driven largely by spending on private equipment. Spending on private equipment overtook investment in structures (e.g. hospitals, clinics) in the early 90s; investments in structures have been increasing much more slowly. As of 2017, overall investment is above $150,000M, investment in private equipment is around $128,000M. Federal spending is consistently the smallest of the series at each time point, usually close to the $500M mark.](https://github.com/ndrewwm/tidytuesday/blob/main/2021/week33-bea-infrastructure/20210810-bea-health-care-investment.png)
