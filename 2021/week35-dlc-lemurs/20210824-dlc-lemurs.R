@@ -22,7 +22,7 @@ s <- survfit(Surv(time = time, event = event) ~ birth_type, data = dat)
 # create life-tables ------------------------------------------------------
 
 life_table <- s %>%
-  summary(times = 365 * c(0, 5, 10, 15, 20, 25, 40), scale = 365.25) %>%
+  summary(times = 365 * c(0, 5, 10, 15, 20, 30, 40), scale = 365.25) %>%
   {
     tibble(
       birth_type = .$strata %>%
@@ -88,7 +88,7 @@ gt_life_table
 
 # Alt-text: Life tables for groups of wild-born vs. captive-born lemurs housed by the
 # Duke Lemur Center. Kaplan-Meier probabilities for each group are shown at years
-# 0-40 in 5-year increments. The life-table data can be found here: https://github.com/ndrewwm/tidytuesday/blob/main/2021/week35-dlc-lemurs/20210824-dlc-lemurs-lifetables.csv
+# 0, 5, 10, 15, 20, 30, and 40. The life-table data can be found here: https://github.com/ndrewwm/tidytuesday/blob/main/2021/week35-dlc-lemurs/20210824-dlc-lemurs-lifetables.csv
 # The source data can be found here: https://github.com/rfordatascience/tidytuesday/blob/master/data/2021/2021-08-24/readme.md
 
 write_csv(life_table, "20210824-dlc-lemurs-lifetables.csv")
