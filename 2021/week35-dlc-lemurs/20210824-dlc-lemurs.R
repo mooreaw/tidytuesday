@@ -60,8 +60,8 @@ gt_life_table <- gt(life_table, groupname_col = "birth_type", rowname_col = "tim
   ) %>%
   tab_stubhead("Age (Years)") %>%
   tab_header(
-    title = "Life tables for Lemurs housed by the Duke Lemur Center",
-    subtitle = "Kaplan-meier Survival probabilities for selected years."
+    title = "Life tables for lemurs housed by the Duke Lemur Center",
+    subtitle = "Kaplan-Meier survival probabilities for selected years."
   ) %>%
   tab_source_note(
     source_note = md("***#tidytuesday*** 2021, Week 35<br>**Source:** Zehr et al. (2014) | **Table:** @ndrewwm")
