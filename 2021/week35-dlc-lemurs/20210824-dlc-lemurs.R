@@ -3,12 +3,13 @@ library(survival)
 library(ggtext)
 library(broom)
 library(scico)
+library(gt)
 
-lemurs <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2021/2021-08-24/lemur_data.csv')
+tt <- tidytuesdayR::tt_load(2021, week = 35)
 
-dat <- lemurs %>%
+dat <- tt$lemur_data %>%
   filter(birth_type != "Unk", !is.na(dob)) %>%
-  select(dlc_id, taxon, birth_type, hybrid, sex, dob, dob_estimated, dod) %>%
+  select(dlc_id, birth_type, dob, dod) %>%
   distinct() %>%
   mutate(
     dod = if_else(is.na(dod), max(dod, na.rm = TRUE) + 1, dod),
@@ -17,6 +18,82 @@ dat <- lemurs %>%
   )
 
 s <- survfit(Surv(time = time, event = event) ~ birth_type, data = dat)
+
+# create life-tables ------------------------------------------------------
+
+life_table <- s %>%
+  summary(times = 365 * c(0, 5, 10, 15, 20, 25, 40), scale = 365.25) %>%
+  {
+    tibble(
+      birth_type = .$strata %>%
+        str_remove("birth_type=") %>%
+        str_trim() %>%
+        factor(levels = c("CB", "WB"), labels = c("Born in Captivity", "Wild Born")),
+      time = round(.$time, 0),
+      n_risk = .$n.risk,
+      n_event =.$n.event,
+      n_censor =.$n.censor,
+      p_surv = .$surv,
+      ci95_lower = .$lower,
+      ci95_upper = .$upper
+    )
+  }
+
+gt_life_table <- gt(life_table, groupname_col = "birth_type", rowname_col = "time") %>%
+  cols_merge(columns = c("ci95_lower", "ci95_upper"), pattern = "[{1}, {2}]") %>%
+  cols_align(align = "center", columns = "n_risk") %>%
+  cols_label(
+    n_risk = "N",
+    n_event = "# Events",
+    n_censor = "# Censored",
+    p_surv = "Survival",
+    ci95_lower = "95% CI"
+  ) %>%
+  fmt_number(columns = c("p_surv", "ci95_lower", "ci95_upper")) %>%
+  fmt_number(columns = "n_risk", decimals = 0) %>%
+  tab_style(
+    style = cell_text(color = "black", weight = "bold"),
+    locations = list(
+      cells_row_groups(),
+      cells_column_labels(everything())
+    )
+  ) %>%
+  tab_stubhead("Age (Years)") %>%
+  tab_header(
+    title = "Life tables for Lemurs housed by the Duke Lemur Center",
+    subtitle = "Kaplan-meier Survival probabilities for selected years."
+  ) %>%
+  tab_source_note(
+    source_note = md("***#tidytuesday*** 2021, Week 35<br>**Source:** Zehr et al. (2014) | **Table:** @ndrewwm")
+  ) %>%
+  tab_options(
+    heading.border.bottom.color = "black",
+    heading.border.bottom.width = px(2),
+    heading.align = "left",
+    table_body.border.bottom.color = "black",
+    stub.border.width = 0,
+    row_group.border.top.width = px(3),
+    row_group.border.top.color = "black",
+    row_group.border.bottom.color = "black",
+    table_body.hlines.color = "white",
+    table.border.top.color = "white",
+    table.border.top.width = px(3),
+    table.border.bottom.color = "white",
+    table.border.bottom.width = px(3),
+    column_labels.border.bottom.color = "black",
+    column_labels.border.bottom.width = px(2)
+  )
+
+gt_life_table
+
+# Alt-text: Life tables for groups of wild-born vs. captive-born lemurs housed by the
+# Duke Lemur Center. Kaplan-Meier probabilities for each group are shown at years
+# 0-40 in 5-year increments. The life-table data can be found here: https://github.com/ndrewwm/tidytuesday/blob/main/2021/week35-dlc-lemurs/20210824-dlc-lemurs-lifetables.csv
+# The source data can be found here: https://github.com/rfordatascience/tidytuesday/blob/master/data/2021/2021-08-24/readme.md
+
+write_csv(life_table, "20210824-dlc-lemurs-lifetables.csv")
+
+# plot curves -------------------------------------------------------------
 
 final <- tidy(s) %>%
   mutate(
@@ -58,10 +135,8 @@ ggplot(data = final, aes(x = time, y = estimate, group = birth_type)) +
     y = "**KM-Survival** (Probability & 95% CI)",
     title = "**Lifespans for lemurs housed by the Duke Lemur Center (DLC)**",
     subtitle = "The estimated probability of a lemur born in captivity reaching age 10 is below 0.75, but this group is\nabout 3 times more likely to reach age 40.",
-    caption = "**Source:** Zehr et al. (2014), doi: 10.1038/sdata.2014.19 **Plot:** @ndrewwm"
+    caption = "**#tidytuesday** 2021, Week 35 | **Source:** Zehr et al. (2014) | **Plot:** @ndrewwm"
   ) +
   plot_theme
-
-# Alt-text: ...
 
 ggsave(filename = "20210824-dlc-lemurs.png", width = 8, height = 6)

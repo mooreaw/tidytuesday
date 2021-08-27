@@ -6,7 +6,8 @@ This repository is used to gather the code and products I'm generating for the w
 
 ### Week 35, DLC Lemurs
 
-![](https://github.com/ndrewwm/tidytuesday/blob/main/2021/week35-dlc-lemurs/20210824-dlc-lemurs.png)
+![Life tables for groups of wild-born vs. captive-born lemurs housed by the Duke Lemur Center. Kaplan-Meier probabilities for each group are shown at years 0-40 in 5-year increments. The life-table data can be found here: https://github.com/ndrewwm/tidytuesday/blob/main/2021/week35-dlc-lemurs/20210824-dlc-lemurs-lifetables.csv. The source data can be found here: https://github.com/rfordatascience/tidytuesday/blob/master/data/2021/2021-08-24/readme.md
+](https://github.com/ndrewwm/tidytuesday/blob/main/2021/week35-dlc-lemurs/20210824-dlc-lemurs-lifetables.png)
 
 ---
 
