@@ -31,8 +31,8 @@ life_table <- s %>%
         factor(levels = c("CB", "WB"), labels = c("Born in Captivity", "Wild Born")),
       time = round(.$time, 0),
       n_risk = .$n.risk,
-      n_event =.$n.event,
-      n_censor =.$n.censor,
+      n_event = .$n.event,
+      n_censor = .$n.censor,
       p_surv = .$surv,
       ci95_lower = .$lower,
       ci95_upper = .$upper
