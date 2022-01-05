@@ -2,6 +2,12 @@
 
 This repository is used to gather the code and products I'm generating for the weekly [#tidytuesday](https://twitter.com/search?q=%23tidytuesday&src=typed_query) event, organized by the [R4DS community](https://github.com/rfordatascience/tidytuesday). Each week, a dataset is selected by the organizers, and the community works to build skills in data-wrangling and data visualization/presentation. Tools within the `{tidyverse}` ecosystem (such as `{ggplot2}` and `{dplyr}`) are emphasized.
 
+## 2022
+
+### Week 1, BYOD
+
+![A grid of symptoms and 4 illnesses: COVID-19, Flu, Cold, and Allergy, titled: "Is it COVID-19, Flu, a Cold, or Allergies?". Inside each cell of the grid, the cells are labeled "Never" to "Common". Example symptoms listed include "fever", "headache", "sore throat", and "loss of taste, smell". Symptoms between the flu and COVID-19 tend to be similar, however loss of taste and smell is common for COVID-19 and rare for the other 3. A stuffy and runny-nose is rare for COVID-19. The grid is color-coded to emphasize patterns across the columns.](https://github.com/ndrewwm/tidytuesday/blob/main/2022/week1-byod/symptoms.png)
+
 ## 2021
 
 ### Week 35, DLC Lemurs
