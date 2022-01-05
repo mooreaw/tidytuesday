@@ -82,3 +82,10 @@ p
 
 ggsave(filename = "symptoms.png", plot = p, height = 9, width = 8)
 
+# Alt-text: A grid of symptoms and 4 illnesses: COVID-19, Flu, Cold, and Allergy,
+# titled: "Is it COVID-19, Flu, a Cold, or Allergies?". Inside each cell of the
+# grid, the cells are labeled "Never" to "Common". Example symptoms listed include
+# "fever", "headache", "sore throat", and "loss of taste, smell". Symptoms between
+# the flu and COVID-19 tend to be similar, however loss of taste and smell is common
+# for COVID-19 and rare for the other 3. A stuffy and runny-nose is rare for COVID-19.
+# The grid is color-coded to emphasize patterns across the columns.
